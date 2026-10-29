@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noti-Trol PRO | Noticias y alertas deportivas en vivo</title>
+<meta name="description" content="Noti-Trol PRO: fútbol, baloncesto, tenis, ciclismo y F1 con scores en vivo, crónicas y centro de alertas. Más rápido y limpio que ESPN y Marca.">
+<link rel="stylesheet" href="styles.css?v=5">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23e11d48'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>NT</text></svg>">
+</head>
+<body>
+<a class="skip" href="#contenido">Saltar al contenido</a>
+
+<!-- UTILITY BAR -->
+<div class="util"><div class="wrap util-in">
+<span id="today">Martes 23 sep 2026 · Cúcuta 27°C</span>
+<span class="live-dot"><i></i> 5 en vivo</span>
+<span class="sp"></span>
+<button id="themeBtn" type="button" class="mini-btn" aria-label="Cambiar tema">🌙 Oscuro</button>
+<a href="#suscripcion" class="mini-btn accent">Suscribirme</a>
+</div></div>
+
+<!-- HEADER -->
+<header class="site-header"><div class="wrap header-in">
+<a class="brand" href="#inicio"><span class="brand-badge">NT</span><span class="brand-txt">Noti-Trol <em>PRO</em><small>fútbol · basket · tenis · ciclismo · F1</small></span></a>
+<nav class="main-nav" aria-label="Principal">
+<a href="#inicio" class="active">Portada</a><a href="#futbol">Fútbol</a><a href="#baloncesto">Basket</a><a href="#tenis">Tenis</a><a href="#ciclismo">Ciclismo</a><a href="#f1">F1</a><a href="#resultados">Scores</a>
+</nav>
+<div class="header-tools">
+<label class="hsearch"><span>🔎</span><input id="q" type="search" placeholder="Buscar gol, Egan, Osorio…" aria-label="Buscar noticias"></label>
+<button id="btnNotif" class="bell" aria-label="Abrir bloc">🔔<span id="notifCount" class="count">5</span></button>
+</div>
+</div>
+<div class="ticker"><span class="ticker-label">ÚLTIMA HORA</span><div class="ticker-track" id="tickerTrack">
+<span><b>90+3'</b> Cúcuta 2-1 Nacional</span><span><b>Q4</b> Bucaramanga 88-84</span><span><b>WTA</b> Osorio a semis 4-6 6-3 6-4</span><span><b>ETAPA</b> Egan 2.º, 4.º general</span><span><b>F1</b> Safety car V31 en Suzuka</span>
+</div></div>
+</header>
+
+<main id="contenido" class="wrap">
+<!-- SCORE STRIP -->
+<section class="scores" aria-label="Marcadores"><div class="score-track">
+<button class="score live"><small>⚽ FINAL · Liga</small><strong>CUC 2 - 1 NAC</strong><span>General Santander · 18.432</span></button>
+<button class="score live"><small>🏀 FINAL · Liga</small><strong>BGA 88 - 84 TIT</strong><span>Parcial 18-2 en Q4</span></button>
+<button class="score"><small>🎾 WTA · SF hoy 14:00</small><strong>OSORIO vs Seed #2</strong><span>H2H 1-1 · dura</span></button>
+<button class="score"><small>🚴 CRI mañana 08:30</small><strong>18 km · Egan a 38s</strong><span>Sale 4.º en la general</span></button>
+<button class="score"><small>🏁 F1 · Suzuka 00:00</small><strong>Parrilla definida</strong><span>Lluvia 40%</span></button>
+</div></section>
+
+<!-- HERO BENTO -->
+<section class="hero-grid" id="inicio">
+<article class="hero-main">
+<img src="https://images.unsplash.com/photo-1522778119026-d647f0596c20?q=80&w=1200&auto=format&fit=crop" alt="Estadio de fútbol lleno de noche" fetchpriority="high">
+<span class="badge live">● EN VIVO · FÚTBOL</span>
+<div class="hero-txt"><p class="kicker">Liga BetPlay · Crónica</p>
+<h1>Agónico 2-1 del Cúcuta: cabezazo al 90+3' que incendia el Santander</h1>
+<p>18.000 almas, remontada y podio a 2 puntos. Así fue la noche motilona, con video, ficha y reacciones.</p>
+<div class="meta"><span class="avatar">LM</span> Lina Martínez · 6 min lectura · hace 25 min <a class="btn" href="#futbol">Leer crónica</a></div>
+</div></article>
+<div class="hero-side">
+<article class="mini"><img src="https://images.unsplash.com/photo-1546519638-68e109498ffc?q=80&w=600&auto=format&fit=crop" alt="Jugador de baloncesto en clavada real"><div><span class="badge">BASKET</span><h3>Bucaramanga remonta 12 y gana 88-84</h3><p class="meta">24 pts + 9 ast · hace 1 h</p></div></article>
+<article class="mini"><img src="https://images.unsplash.com/photo-1554068865-24cecd4e34b8?q=80&w=600&auto=format&fit=crop" alt="Pelotas y raqueta de tenis reales"><div><span class="badge gold">TENIS</span><h3>Osorio a semis tras 2h12 de batalla</h3><p class="meta">WTA · hoy 14:00 la semi</p></div></article>
+<aside class="topbox" aria-label="Lo más leído"><h3>🔥 Lo más leído</h3><ol><li><a href="#futbol">Video del gol 90+3' del Cúcuta</a></li><li><a href="#ciclismo">Egan a 38s del podio: general</a></li><li><a href="#tenis">Osorio: hora y canal de la semi</a></li><li><a href="#f1">Alerón activo 2026 en 5 claves</a></li></ol></aside>
+</div></section>
+
+<!-- FILTROS -->
+<section class="toolbar"><div class="chips" role="group" aria-label="Filtrar">
+<button class="chip active" data-filter="all">Todas</button><button class="chip" data-filter="futbol">⚽ Fútbol</button><button class="chip" data-filter="baloncesto">🏀 Basket</button><button class="chip" data-filter="tenis">🎾 Tenis</button><button class="chip" data-filter="ciclismo">🚴 Ciclismo</button><button class="chip" data-filter="f1">🏁 F1</button>
+</div><p class="hint" id="resCount">10 historias · actualizado hace 5 min</p></section>
+
+<div class="layout"><div class="main-col">
+<!-- SECCIONES -->
+<section id="futbol" class="sport" data-sport="futbol"><header class="sport-head"><h2><span>⚽</span> Fútbol <small>Liga + Selección</small></h2><a href="#suscripcion">Seguir →</a></header><div class="cards">
+<article class="card" data-tags="futbol gol cucuta nacional liga santander"><div class="imgw"><img src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=800&auto=format&fit=crop" alt="Hinchada celebrando gol en estadio" loading="lazy"><span class="badge live">FINAL 2-1</span></div><div class="card-b"><p class="kicker">Liga BetPlay · Jornada 12</p><h3>Así fue el 2-1: centros, empuje y cabezazo histórico</h3><p>El motilón suma 22 pts y queda a 2 del líder. Próximo: visita a Medellín el domingo.</p><p class="meta"><span class="avatar">JR</span> J. Rangel · 4 min · <a href="#resultados">Ficha →</a></p></div></article>
+<article class="card" data-tags="futbol seleccion convocatoria eliminatorias"><div class="imgw"><img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=800&auto=format&fit=crop" alt="Estadio de fútbol durante partido" loading="lazy"><span class="badge">SELECCIÓN</span></div><div class="card-b"><p class="kicker">Eliminatorias</p><h3>Tres caras nuevas en la convocatoria: lateral de 19 años incluido</h3><p>Lista oficial el viernes. Analizamos quiénes son y por qué entran.</p><p class="meta"><span class="avatar">NT</span> Redacción · 3 min · <a href="#suscripcion">Recibir lista →</a></p></div></article>
+</div></section>
+
+<section id="baloncesto" class="sport" data-sport="baloncesto"><header class="sport-head"><h2><span>🏀</span> Baloncesto <small>Liga Profesional</small></h2><a href="#suscripcion">Seguir →</a></header><div class="cards">
+<article class="card" data-tags="baloncesto bucaramanga titanes liga q4"><div class="imgw"><img src="https://images.unsplash.com/photo-1519861531472-47e5584d1a58?q=80&w=800&auto=format&fit=crop" alt="Cancha de baloncesto profesional" loading="lazy"><span class="badge live">88-84</span></div><div class="card-b"><p class="kicker">Noche mágica en el Coliseo</p><h3>Del -12 al triunfo: parcial 18-2 que tumbó a Titanes</h3><p>Base con 24+9. Sábado, juego 2 en casa: entradas desde $15k.</p><p class="meta"><span class="avatar">DP</span> D. Prada · 5 min · <a href="#resultados">Stats →</a></p></div></article>
+<article class="card" data-tags="baloncesto ncaa caleño academia usa"><div class="imgw"><img src="https://images.unsplash.com/photo-1504450758481-7338eba7524a?q=80&w=800&auto=format&fit=crop" alt="Balón de baloncesto en cancha" loading="lazy"><span class="badge gold">CANTERA</span></div><div class="card-b"><p class="kicker">Colombianos fuera</p><h3>Caleño de 17 años y 2,03 m firma con academia USA</h3><p>Promedia 18,5 pts en selección juvenil. Ruta NCAA explicada.</p><p class="meta"><span class="avatar">NT</span> Redacción · 3 min · <a href="#suscripcion">Seguir →</a></p></div></article>
+</div></section>
+
+<section id="tenis" class="sport" data-sport="tenis"><header class="sport-head"><h2><span>🎾</span> Tenis <small>WTA + base</small></h2><a href="#suscripcion">Seguir →</a></header><div class="cards">
+<article class="card" data-tags="tenis osorio wta semifinal sets"><div class="imgw"><img src="https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?q=80&w=800&auto=format&fit=crop" alt="Cancha de tenis real" loading="lazy"><span class="badge gold">SEMIS</span></div><div class="card-b"><p class="kicker">WTA · 4-6 6-3 6-4</p><h3>Osorio remonta en 2h12 y va por la final ante la #2</h3><p>Hoy 14:00. Claves tácticas y dónde ver gratis.</p><p class="meta"><span class="avatar">CO</span> C. Osorio · 4 min · <a href="#resultados">Cuadro →</a></p></div></article>
+<article class="card" data-tags="tenis juvenil cucuta abierto club"><div class="imgw"><img src="https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?q=80&w=800&auto=format&fit=crop" alt="Raqueta de tenis en partido juvenil" loading="lazy"><span class="badge">BASE</span></div><div class="card-b"><p class="kicker">Abierto juvenil</p><h3>120 raquetas sub-12 a sub-18 toman Cúcuta</h3><p>Entrada libre. Inscripciones abiertas hasta el jueves.</p><p class="meta"><span class="avatar">NT</span> Redacción · 2 min · <a href="#suscripcion">Inscribirme →</a></p></div></article>
+</div></section>
+
+<section id="ciclismo" class="sport" data-sport="ciclismo"><header class="sport-head"><h2><span>🚴</span> Ciclismo <small>WorldTour + Vuelta</small></h2><a href="#suscripcion">Seguir →</a></header><div class="cards">
+<article class="card" data-tags="ciclismo egan etapa montaña general contrarreloj"><div class="imgw"><img src="https://images.unsplash.com/photo-1541625602330-2277a4c46182?q=80&w=800&auto=format&fit=crop" alt="Pelotón ciclista real en ruta" loading="lazy"><span class="badge live">2.º ETAPA</span></div><div class="card-b"><p class="kicker">Etapa reina</p><h3>Ataque a 4 km: Egan 2.º y ya es 4.º a 38s</h3><p>Mañana CRI de 18 km. Simulador: ¿le alcanza para el podio?</p><p class="meta"><span class="avatar">EB</span> E. Bernal · 5 min · <a href="#resultados">General →</a></p></div></article>
+<article class="card" data-tags="ciclismo vuelta colombia femenina manizales fuga"><div class="imgw"><img src="https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=800&auto=format&fit=crop" alt="Ciclistas compitiendo en carretera" loading="lazy"><span class="badge">VUELTA</span></div><div class="card-b"><p class="kicker">Vuelta Colombia fem.</p><h3>Fuga heroica gana en Manizales y se viste de montaña</h3><p>La santandereana coronó La Línea primera.</p><p class="meta"><span class="avatar">NT</span> Redacción · 3 min · <a href="#suscripcion">Seguir →</a></p></div></article>
+</div></section>
+
+<section id="f1" class="sport" data-sport="f1"><header class="sport-head"><h2><span>🏁</span> Fórmula 1 <small>GP + técnica</small></h2><a href="#suscripcion">Seguir →</a></header><div class="cards">
+<article class="card" data-tags="f1 gp lluvia safety puntos suzuka"><div class="imgw"><img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=800&auto=format&fit=crop" alt="Auto de carreras en pista real" loading="lazy"><span class="badge">GP SUZUKA</span></div><div class="card-b"><p class="kicker">Lluvia + safety en V31</p><h3>Carrera loca: una parada, lluvia y puntos históricos</h3><p>Estrategia ganadora explicada vuelta a vuelta.</p><p class="meta"><span class="avatar">NT</span> Redacción · 6 min · <a href="#resultados">Puntos →</a></p></div></article>
+<article class="card" data-tags="f1 tecnica aleron 2026 drs reglamento"><div class="imgw"><img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=800&auto=format&fit=crop" alt="Mononoplaza en boxes" loading="lazy"><span class="badge gold">GUÍA 2026</span></div><div class="card-b"><p class="kicker">Sin tecnicismos</p><h3>Alerón activo 2026 en 5 claves visuales</h3><p>Menos drag en recta, más carga en curva.</p><p class="meta"><span class="avatar">NT</span> Técnica · 4 min · <a href="#suscripcion">Leer →</a></p></div></article>
+</div></section>
+
+<section id="resultados"><h2>📊 Scores, agenda y posiciones</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Estado</th><th>Prueba</th><th>Marcador</th><th>Detalle</th></tr></thead><tbody>
+<tr><td><span class="pill fin">FINAL</span></td><td>⚽ Cúcuta vs Nacional</td><td><b>2 – 1</b></td><td>Gol 90+3' · 18.432</td></tr>
+<tr><td><span class="pill fin">FINAL</span></td><td>🏀 Bucaramanga vs Titanes</td><td><b>88 – 84</b></td><td>Q4 18-2</td></tr>
+<tr><td><span class="pill live">HOY 14:00</span></td><td>🎾 Osorio vs Seed #2 (SF)</td><td>–</td><td>WTA · dura</td></tr>
+<tr><td><span class="pill next">MAÑ 08:30</span></td><td>🚴 CRI 18 km</td><td>–</td><td>Egan sale 4.º</td></tr>
+<tr><td><span class="pill next">DOM 00:00</span></td><td>🏁 GP Suzuka</td><td>–</td><td>Lluvia 40%</td></tr>
+</tbody></table></div>
+<div class="cols2"><div><h3>Lo más leído</h3><ol><li>Gol 90+3' del Cúcuta: video</li><li>Egan a 38s del podio</li><li>Osorio: hora y canal</li></ol></div>
+<div><h3>Fuentes oficiales</h3><ul><li><a href="https://es.fifa.com" target="_blank" rel="noopener">FIFA.com →</a></li><li><a href="https://www.wtatennis.com" target="_blank" rel="noopener">WTA oficial →</a></li><li><a href="#inicio">Volver arriba ↑</a></li></ul></div></div>
+</section>
+
+<section id="suscripcion" class="subscribe"><div class="sub-info"><p class="kicker">🔔 CENTRO DE ALERTAS</p><h2>Recibe solo lo que te importa, sin spam</h2><ul class="checks"><li>✔ Push + email + SMS a tu hora</li><li>✔ Intensidad 1-5 por deporte</li><li>✔ Gratis, date de baja en 1 clic</li></ul><p class="muted">MVP estático: al enviar, tu alerta aparece en el bloc lateral como prueba.</p></div>
+<form id="formAlertas" novalidate>
+<div class="grid2">
+<p><label for="nombre">Nombre *</label><input id="nombre" name="nombre" type="text" required minlength="3" placeholder="Lina Martínez" autocomplete="name"></p>
+<p><label for="email">Correo *</label><input id="email" name="email" type="email" required placeholder="tu@mail.com" autocomplete="email"></p>
+<p><label for="tel">Celular</label><input id="tel" type="tel" pattern="[0-9+ ]{7,15}" placeholder="+57 300 123 4567"></p>
+<p><label for="fecha">Nacimiento</label><input id="fecha" type="date" max="2016-01-01"></p>
+<p><label for="deporte">Deporte favorito *</label><select id="deporte" required><option value="">— elige —</option><option>Fútbol</option><option>Baloncesto</option><option>Tenis</option><option>Ciclismo</option><option>F1</option><option>Todos</option></select></p>
+<p><label for="hora">Hora de avisos</label><input id="hora" type="time" value="19:00"></p>
+<p><label for="color">Color equipo <input id="color" type="color" value="#e11d48"></label></p>
+<p><label for="nivel">Intensidad: <output id="nivelOut">3</output>/5</label><input id="nivel" type="range" min="1" max="5" value="3"></p>
+</div>
+<fieldset><legend>Canales *</legend><label><input type="checkbox" name="canal" value="push" checked> Push</label><label><input type="checkbox" name="canal" value="email"> Email</label><label><input type="checkbox" name="canal" value="sms"> SMS</label></fieldset>
+<fieldset><legend>Plan</legend><label><input type="radio" name="plan" value="free" checked> Gratis</label><label><input type="radio" name="plan" value="pro"> Pro hincha</label></fieldset>
+<p><label for="msg">Comentario</label><textarea id="msg" rows="2" placeholder="¿De qué equipo eres?"></textarea></p>
+<p><label for="foto">Foto (opcional)</label><input id="foto" type="file" accept="image/*"></p>
+<p class="form-row"><button class="btn" type="submit">Activar alertas</button><button class="btn ghost" type="reset">Limpiar</button></p>
+<p id="formOk" class="ok" hidden>✔ ¡Listo! Mira el bloc 🔔 lateral.</p>
+</form></section>
+</div>
+
+<aside class="bloc" id="blocPanel"><div class="bloc-head"><h2>🔔 Bloc en vivo</h2><button id="btnClear" class="link">Marcar leídas</button></div>
+<div class="bloc-tabs"><button class="bt active" data-t="all">Todo</button><button class="bt" data-t="futbol">⚽</button><button class="bt" data-t="baloncesto">🏀</button><button class="bt" data-t="tenis">🎾</button><button class="bt" data-t="ciclismo">🚴</button><button class="bt" data-t="f1">🏁</button></div>
+<ol class="notifs" id="notifList">
+<li data-sport="futbol"><span class="dot"></span><div><strong>FÚTBOL · FINAL</strong><p>Cúcuta 2-1 Nacional (90+3')</p><time>hace 5 min</time></div></li>
+<li data-sport="baloncesto"><span class="dot"></span><div><strong>BASKET · Q4 18-2</strong><p>Bucaramanga 88-84 Titanes</p><time>hace 22 min</time></div></li>
+<li data-sport="tenis"><span class="dot"></span><div><strong>TENIS · WTA</strong><p>Osorio 4-6 6-3 6-4 a semis</p><time>hace 1 h</time></div></li>
+<li data-sport="ciclismo"><span class="dot"></span><div><strong>CICLISMO</strong><p>Egan 2.º, 4.º a 38s</p><time>hace 2 h</time></div></li>
+<li data-sport="f1"><span class="dot"></span><div><strong>F1</strong><p>Safety car V31 · lluvia</p><time>ayer</time></div></li>
+</ol>
+<div class="minitable"><h3>Posiciones Liga</h3><ol><li><b>1.</b> Líder 24 pts</li><li><b>2.</b> Cúcuta 22 pts</li><li><b>3.</b> Medellín 21 pts</li></ol></div>
+<div class="bloc-foot"><a href="docs/01-mapa-componentes.pdf">Mapa PDF</a> · <a href="docs/02-inventario-aplicacion.pdf">Inventario PDF</a> · <a href="docs/04-analisis-competidores.pdf">Vs competencia PDF</a></div>
+</aside></div>
+</main>
+
+<footer class="site-footer"><div class="wrap foot-grid">
+<div><p class="flogo"><span class="brand-badge">NT</span> <b>Noti-Trol PRO</b></p><p class="muted">Medio universitario FESC · VI semestre. Más ligero que ESPN, más útil que Flashscore.</p></div>
+<div><h4>Secciones</h4><a href="#futbol">Fútbol</a><a href="#baloncesto">Basket</a><a href="#tenis">Tenis</a></div>
+<div><h4>Más</h4><a href="#ciclismo">Ciclismo</a><a href="#f1">F1</a><a href="#resultados">Scores</a></div>
+<div><h4>Proyecto</h4><a href="docs/03-ficha-ppa.pdf">Ficha PPA (PDF)</a><a href="docs/01-mapa-componentes.pdf">Componentes (PDF)</a><a href="#suscripcion">Alertas</a></div>
+</div><div class="wrap copy">© 2026 Noti-Trol · Demo educativa · Fotos reales Unsplash</div></footer>
+<div id="toast" class="toast" role="status" hidden></div>
+<button id="top" aria-label="Subir">↑</button>
+<script src="app.js?v=5"></script>
+</body>
+</html>
