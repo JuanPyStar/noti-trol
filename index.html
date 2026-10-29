@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noti-Trol | Fútbol y deportes en vivo</title>
+<meta name="description" content="Noti-Trol: noticias de fútbol en vivo desde Marca, AS, Mundo Deportivo, El Tiempo, Semana y más. Marcadores en directo, Liga BetPlay, Champions y tabla de posiciones.">
+<meta name="theme-color" content="#0a0d12">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700;1,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=6">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230a0d12'/><path d='M22 74 46 26h12L34 74z' fill='%23c8ff2e'/><path d='M50 74 74 26h8L58 74z' fill='%23ffffff'/></svg>">
+<script>try{var t=localStorage.getItem('nt-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body>
+<a class="skip" href="#feed">Saltar a las noticias</a>
+
+<!-- BARRA SUPERIOR -->
+<div class="topbar"><div class="wrap topbar-in">
+  <span id="clock" class="clock">--:--</span>
+  <span class="live-pill" id="livePill"><i></i><b id="liveCount">0</b> en vivo</span>
+  <span class="sync" id="sync" title="Las noticias y marcadores se actualizan solos">
+    <svg viewBox="0 0 36 36" class="ring" aria-hidden="true"><circle cx="18" cy="18" r="15"/><circle id="ringBar" cx="18" cy="18" r="15"/></svg>
+    <span id="syncTxt">Conectando con las fuentes…</span>
+  </span>
+  <span class="grow"></span>
+  <button id="btnAlerts" class="tb-btn" type="button" aria-pressed="false" title="Avisos de goles en el navegador">🔔<span class="lbl"> Avisos de gol</span></button>
+  <button id="themeBtn" class="tb-btn" type="button" aria-label="Cambiar tema">☀️ Claro</button>
+</div></div>
+
+<!-- ENCABEZADO -->
+<header class="masthead">
+  <div class="wrap mast-in">
+    <a class="logo" href="#top" aria-label="Noti-Trol, inicio">
+      <span class="logo-mark" aria-hidden="true"><i></i><i></i></span>
+      <span class="logo-txt">NOTI<span>·</span>TROL<small>fútbol en vivo</small></span>
+    </a>
+    <nav class="nav" aria-label="Secciones">
+      <a href="#marcadores" data-go="live"><span class="dot-live"></span>En vivo</a>
+      <a href="#feed" data-cat="colombia">Colombia</a>
+      <a href="#feed" data-cat="champions">Copas</a>
+      <a href="#feed" data-cat="espana">España</a>
+      <a href="#feed" data-cat="internacional">Mundo</a>
+      <a href="#tabla">Tabla</a>
+      <a href="#otros">Más deportes</a>
+    </nav>
+    <label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="q" type="search" placeholder="Buscar: Luis Díaz, Millonarios, Mbappé…" aria-label="Buscar noticias"></label>
+  </div>
+  <div class="ticker" aria-label="Última hora">
+    <span class="ticker-tag">ÚLTIMA HORA</span>
+    <div class="ticker-view"><div class="ticker-track" id="ticker"><span>Cargando titulares de los diarios deportivos…</span></div></div>
+  </div>
+</header>
+
+<main id="top">
+  <!-- MARCADORES EN VIVO -->
+  <section class="scores-sec" id="marcadores" aria-labelledby="h-scores">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="h-scores"><span class="slash"></span>Marcadores</h2>
+        <div class="tabs" id="leagueTabs" role="tablist" aria-label="Ligas"></div>
+      </div>
+      <div class="score-rail" id="scoreRail" aria-live="polite">
+        <div class="score sk"></div><div class="score sk"></div><div class="score sk"></div><div class="score sk"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <!-- PORTADA -->
+    <section class="hero" id="hero" aria-label="Destacadas">
+      <article class="lead sk"></article>
+      <div class="hero-side"><article class="side sk"></article><article class="side sk"></article><article class="side sk"></article><article class="side sk"></article></div>
+    </section>
+
+    <div class="layout">
+      <!-- NOTICIAS -->
+      <section class="feed-col" id="feed" aria-labelledby="h-feed">
+        <div class="sec-head sticky-head">
+          <h2 id="h-feed"><span class="slash"></span>Fútbol al minuto</h2>
+          <span class="count" id="resCount"></span>
+        </div>
+        <div class="filters">
+          <div class="chips" id="chips" role="group" aria-label="Filtrar noticias">
+            <button class="chip active" data-cat="futbol">⚽ Todo fútbol</button>
+            <button class="chip" data-cat="colombia">Colombia</button>
+            <button class="chip" data-cat="champions">🏆 Copas</button>
+            <button class="chip" data-cat="espana">España</button>
+            <button class="chip" data-cat="internacional">🌎 Mundo</button>
+            <button class="chip" data-cat="all">Todo</button>
+          </div>
+          <select id="srcSel" aria-label="Filtrar por diario"><option value="">Todos los diarios</option></select>
+        </div>
+        <button id="newBtn" class="new-btn" type="button" hidden>▲ <b id="newN">0</b> noticias nuevas</button>
+        <div class="grid" id="grid"></div>
+        <p class="empty" id="empty" hidden>No hay noticias con ese filtro todavía. Prueba otra búsqueda.</p>
+        <button id="moreBtn" class="more-btn" type="button" hidden>Cargar más noticias</button>
+      </section>
+
+      <!-- LATERAL -->
+      <aside class="side-col">
+        <section class="panel" id="tabla" aria-labelledby="h-tabla">
+          <div class="panel-head"><h3 id="h-tabla">Liga BetPlay</h3><span class="muted" id="tablaStage">Tabla</span></div>
+          <table class="table"><thead><tr><th>#</th><th>Equipo</th><th>PJ</th><th>DG</th><th>Pts</th></tr></thead><tbody id="tablaBody"><tr><td colspan="5" class="muted">Cargando tabla…</td></tr></tbody></table>
+          <button class="link-btn" id="tablaMore" type="button">Ver tabla completa</button>
+        </section>
+
+        <section class="panel bloc" aria-labelledby="h-bloc">
+          <div class="panel-head"><h3 id="h-bloc"><span class="dot-live"></span>Bloc en vivo</h3><button class="link-btn" id="blocClear" type="button">Limpiar</button></div>
+          <ol class="events" id="events"><li class="muted">Aquí aparecen los goles, finales y noticias nuevas a medida que pasan.</li></ol>
+        </section>
+
+        <section class="panel" aria-labelledby="h-src">
+          <div class="panel-head"><h3 id="h-src">Fuentes</h3><span class="muted" id="srcSummary"></span></div>
+          <ul class="sources" id="sources"></ul>
+        </section>
+      </aside>
+    </div>
+
+    <!-- OTROS DEPORTES (menos protagonismo) -->
+    <section class="others" id="otros" aria-labelledby="h-otros">
+      <div class="sec-head"><h2 id="h-otros"><span class="slash"></span>Más deportes</h2><span class="count">Lo último fuera del fútbol</span></div>
+      <div class="others-grid" id="others"></div>
+    </section>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <a class="logo" href="#top"><span class="logo-mark" aria-hidden="true"><i></i><i></i></span><span class="logo-txt">NOTI<span>·</span>TROL</span></a>
+      <p>Agregador de noticias deportivas en vivo, con el fútbol como protagonista. Cada titular enlaza a su diario original.</p>
+    </div>
+    <div>
+      <h4>Secciones</h4>
+      <a href="#marcadores">Marcadores en vivo</a><a href="#feed">Fútbol al minuto</a><a href="#tabla">Tabla Liga BetPlay</a><a href="#otros">Más deportes</a>
+    </div>
+    <div>
+      <h4>Fuentes</h4>
+      <p class="foot-src">Marca · AS · Mundo Deportivo · El Tiempo · El Colombiano · Semana · Infobae · Olé. Marcadores y tabla: ESPN.</p>
+    </div>
+    <div>
+      <h4>Proyecto</h4>
+      <a href="docs/03-ficha-ppa.pdf">Ficha PPA (PDF)</a><a href="docs/01-mapa-componentes.pdf">Mapa de componentes</a><a href="docs/02-inventario-aplicacion.pdf">Inventario</a><a href="docs/04-analisis-competidores.pdf">Análisis de competidores</a>
+    </div>
+  </div>
+  <div class="devs">
+    <div class="wrap devs-in">
+      <span class="devs-label">Desarrolladores</span>
+      <span class="dev">Juan David Jauregui</span>
+      <span class="devs-sep" aria-hidden="true">/</span>
+      <span class="dev">Andres Mendez</span>
+    </div>
+  </div>
+  <div class="wrap copy">© <span id="year">2026</span> Noti-Trol · Proyecto académico FESC · Los contenidos pertenecen a sus medios.</div>
+</footer>
+
+<div id="toast" class="toast" role="status" hidden></div>
+<button id="toTop" class="to-top" type="button" aria-label="Volver arriba">↑</button>
+
+<script src="feeds.js?v=6"></script>
+<script src="app.js?v=6"></script>
+</body>
+</html>

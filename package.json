@@ -1,0 +1,14 @@
+{
+  "name": "noti-trol",
+  "version": "2.0.0",
+  "description": "Noti-Trol: noticias de fútbol y deportes en vivo desde diarios deportivos reconocidos",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test --experimental-test-coverage test/*.test.js"
+  },
+  "engines": { "node": ">=18" },
+  "author": "Juan David Jauregui, Andres Mendez",
+  "license": "UNLICENSED",
+  "private": true
+}
