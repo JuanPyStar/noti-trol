@@ -26,6 +26,19 @@ Luego abre **http://localhost:3000**. Para otro puerto: `PORT=8080 node server.j
 - Los goles, inicios y finales de partido quedan en el **Bloc en vivo**; con "🔔 Avisos de gol" también llegan como notificación del navegador.
 - Cada noticia muestra titular, resumen corto e imagen del diario y enlaza al artículo original.
 
+## Pruebas automatizadas
+
+```bash
+npm install   # solo la primera vez (instala Newman, dependencia de desarrollo)
+npm test      # un solo comando: node:test (unitarias + integración, con cobertura) y Newman (API)
+```
+
+- `test/feeds.test.js` – unitarias del lector RSS, clasificador y merge (incluye pruebas parametrizadas).
+- `test/server.test.js` – integración HTTP del servidor real (salud, estáticos, lista blanca de ESPN).
+- `test/api-news.test.js` – integración de `/api/news` y `/api/espn` con *fixtures* y un doble de `fetch` (sin red).
+- `test/api/noti-trol.postman_collection.json` + `test/api/run-newman.js` – pruebas de API con Postman/Newman.
+- `test/helpers/fake-upstream.js` – doble de prueba de los 16 RSS y de ESPN.
+
 ## Archivos
 
 - `server.js` – servidor Node sin dependencias: sirve la web y expone `/api/news` (une los RSS, quita duplicados, caché de 60 s).

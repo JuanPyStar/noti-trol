@@ -1,0 +1,134 @@
+
+> noti-trol@2.0.0 test
+> npm run test:xunit && npm run test:api
+
+
+> noti-trol@2.0.0 test:xunit
+> node --test --test-reporter=spec --experimental-test-coverage test/*.test.js
+
+▶ /api/news
+  ✔ CP-I07 une las 16 fuentes, quita duplicados y ordena por fecha descendente (101.644997ms)
+(node:2691) ExperimentalWarning: The MockTimers API is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✔ CP-I08 la caché de 60 s evita volver a pedir los RSS (15.905957ms)
+  ✔ CP-I08b con la caché vencida entrega lo último y refresca en segundo plano (19.355401ms)
+  ✔ CP-I09 since=∅ devuelve 33 (sin parámetro) (9.398871ms)
+  ✔ CP-I09 since=abc devuelve 33 (no numérico → 0) (7.594547ms)
+  ✔ CP-I09 since=1793534279999 devuelve 3 (1 ms antes de la 3.ª más reciente) (7.144632ms)
+  ✔ CP-I09 since=1793534399999 devuelve 1 (1 ms antes de la más reciente) (8.431128ms)
+  ✔ CP-I09 since=1793534400000 devuelve 0 (igual a la más reciente (estricto >)) (10.856488ms)
+  ✔ CP-I11 una fuente caída no tumba la portada (9.350676ms)
+✔ /api/news (191.581846ms)
+▶ /api/espn
+  ✔ CP-I10 scoreboard/col.1 se reenvía a ESPN y queda en caché (7.397341ms)
+  ✔ CP-I10 scoreboard/uefa.champions se reenvía a ESPN y queda en caché (4.17955ms)
+  ✔ CP-I10 standings/col.1 se reenvía a ESPN y queda en caché (4.033536ms)
+  ✔ CP-I12 ESPN caído: 502 sin caché y respaldo con la última respuesta (6.383685ms)
+✔ /api/espn (22.477496ms)
+✔ CP-U01 parseFeed extrae título, enlace, resumen y fecha (4.563433ms)
+✔ CP-U02 descarta ítems sin título o sin enlace (0.711885ms)
+✔ CP-U03 usa guid como enlace si no hay <link> (2.841719ms)
+✔ CP-U04 decodifica CDATA y entidades HTML (1.100384ms)
+✔ CP-U05 límite: máximo 25 ítems por fuente (24, 25, 26) (4.074466ms)
+✔ CP-U06 límite: resumen se corta en 280 caracteres (0.257465ms)
+✔ CP-U07 fecha inválida o ausente devuelve 0 (0.321002ms)
+✔ CP-U08 elige la imagen más grande y la pasa a https (0.812799ms)
+✔ CP-U09 clasifica deporte por la ruta del enlace (0.495673ms)
+✔ CP-U10 clasifica por palabras clave y etiqueta Colombia/Champions (0.367322ms)
+✔ CP-U11 merge quita duplicados por enlace y por titular normalizado (2.096761ms)
+✔ CP-U12 merge corrige fechas en el futuro (0.191785ms)
+✔ CP-U13 catálogo de fuentes: 16 feeds con id único y URL https (0.246196ms)
+✔ CP-U14 resumen de 279 caracteres queda en 279 (0.218278ms)
+✔ CP-U14 resumen de 280 caracteres queda en 280 (0.141438ms)
+✔ CP-U14 resumen de 281 caracteres queda en 280 (0.128073ms)
+✔ CP-U14 resumen de 300 caracteres queda en 280 (0.122859ms)
+✔ CP-U15 «Egan Bernal gana la etapa reina del Tour» → ciclismo (0.247606ms)
+✔ CP-U15 «Alcaraz avanza en Roland Garros» → tenis (0.128531ms)
+✔ CP-U15 «LeBron lidera a los Lakers en la NBA» → baloncesto (0.214439ms)
+✔ CP-U15 «Verstappen gana el Gran Premio de México» → f1 (0.142877ms)
+✔ CP-U15 «Millonarios golea en la Liga BetPlay» → futbol (0.12618ms)
+✔ CP-U15 «Receta de arepas de choclo» → otros (0.124057ms)
+✔ CP-I01 /api/health responde 200 con 16 fuentes (151.599961ms)
+✔ CP-I02 sirve index.html en / con tipo HTML (5.217562ms)
+✔ CP-I03 bloquea archivos sensibles (server.js, package.json) (4.145673ms)
+✔ CP-I04 bloquea recorrido de directorios (4.259853ms)
+✔ CP-I05 /api/espn rechaza rutas fuera de la lista blanca (8.084918ms)
+✔ CP-I06 archivo inexistente devuelve 404 (2.706946ms)
+ℹ tests 42
+ℹ suites 2
+ℹ pass 42
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 976.011158
+ℹ start of coverage report
+ℹ --------------------------------------------------------------------------------
+ℹ file               | line % | branch % | funcs % | uncovered lines
+ℹ --------------------------------------------------------------------------------
+ℹ feeds.js           | 100.00 |    92.05 |   95.24 | 
+ℹ server.js          |  86.18 |    71.70 |   73.33 | 73-74 98-102 104-107 116-121
+ℹ test               |        |          |         | 
+ℹ  api-news.test.js  |  99.17 |    96.67 |   95.83 | 59
+ℹ  feeds.test.js     | 100.00 |   100.00 |  100.00 | 
+ℹ  helpers           |        |          |         | 
+ℹ   fake-upstream.js | 100.00 |    94.74 |  100.00 | 
+ℹ  server.test.js    | 100.00 |   100.00 |  100.00 | 
+ℹ --------------------------------------------------------------------------------
+ℹ all files          |  97.08 |    89.47 |   93.88 | 
+ℹ --------------------------------------------------------------------------------
+ℹ end of coverage report
+
+> noti-trol@2.0.0 test:api
+> node test/api/run-newman.js
+
+newman
+
+Noti-Trol API – pruebas automatizadas (Taller U3)
+
+→ CP-A01 Salud del servicio
+  GET http://127.0.0.1:37535/api/health [200 OK, 246B, 30ms]
+  ✓  CP-A01 /api/health responde 200 en menos de 500 ms
+  ✓  CP-A01 reporta 16 fuentes configuradas
+
+→ CP-A02 Noticias unificadas
+  GET http://127.0.0.1:37535/api/news [200 OK, 9.62kB, 55ms]
+  ✓  CP-A02 responde 200 JSON sin caché de navegador
+  ✓  CP-A02 contrato: cada noticia trae id, título, enlace https, fecha y deporte
+  ✓  CP-A02 sin enlaces duplicados y ordenadas de la más nueva a la más vieja
+
+→ CP-A03 Noticias nuevas desde la más reciente (since)
+  GET http://127.0.0.1:37535/api/news?since=1793534400000 [200 OK, 1.19kB, 3ms]
+  ✓  CP-A03 since = fecha de la más reciente devuelve 0 noticias
+
+→ CP-A04 Proxy ESPN rechaza ruta no permitida (SSRF)
+  GET http://127.0.0.1:37535/api/espn?p=teams/col.1 [400 Bad Request, 249B, 3ms]
+  ✓  CP-A04 ruta fuera de la lista blanca devuelve 400
+
+→ CP-A05 Proxy ESPN marcador de la Liga BetPlay
+  GET http://127.0.0.1:37535/api/espn?p=scoreboard/col.1 [200 OK, 337B, 4ms]
+  ✓  CP-A05 ruta válida se reenvía a ESPN (200)
+
+→ CP-A06 No expone el código del servidor
+  GET http://127.0.0.1:37535/server.js [404 Not Found, 225B, 3ms]
+  ✓  CP-A06 /server.js devuelve 404
+
+┌─────────────────────────┬──────────────────┬──────────────────┐
+│                         │         executed │           failed │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              iterations │                1 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│                requests │                6 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│            test-scripts │                6 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│      prerequest-scripts │                0 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              assertions │                9 │                0 │
+├─────────────────────────┴──────────────────┴──────────────────┤
+│ total run duration: 241ms                                     │
+├───────────────────────────────────────────────────────────────┤
+│ total data received: 10.45kB (approx)                         │
+├───────────────────────────────────────────────────────────────┤
+│ average response time: 16ms [min: 3ms, max: 55ms, s.d.: 19ms] │
+└───────────────────────────────────────────────────────────────┘

@@ -92,3 +92,28 @@ test('CP-U13 catálogo de fuentes: 16 feeds con id único y URL https', () => {
   assert.equal(new Set(FEEDS.map(f => f.id)).size, FEEDS.length);
   assert.ok(FEEDS.every(f => f.url.startsWith('https://')));
 });
+
+// ---------- Pruebas parametrizadas (Taller U3 – Automatización) ----------
+// CP-U14: valores límite del resumen (279 / 280 / 281 / 300 caracteres)
+for (const [largo, esperado] of [[279, 279], [280, 280], [281, 280], [300, 280]]) {
+  test(`CP-U14 resumen de ${largo} caracteres queda en ${esperado}`, () => {
+    const [it] = parseFeed(item(`<title>T</title><link>https://x.co/a</link><description>${'a'.repeat(largo)}</description>`), feed);
+    assert.equal(it.summary.length, esperado);
+  });
+}
+
+// CP-U15: partición de equivalencia del clasificador por palabras clave del titular
+const titulares = [
+  ['Egan Bernal gana la etapa reina del Tour', 'ciclismo'],
+  ['Alcaraz avanza en Roland Garros', 'tenis'],
+  ['LeBron lidera a los Lakers en la NBA', 'baloncesto'],
+  ['Verstappen gana el Gran Premio de México', 'f1'],
+  ['Millonarios golea en la Liga BetPlay', 'futbol'],
+  ['Receta de arepas de choclo', 'otros']
+];
+for (const [titulo, deporte] of titulares) {
+  test(`CP-U15 «${titulo}» → ${deporte}`, () => {
+    const [it] = parseFeed(item(`<title>${titulo}</title><link>https://x.co/n/${deporte}</link>`), feed);
+    assert.equal(it.sport, deporte);
+  });
+}

@@ -45,7 +45,7 @@ async function refresh() {
   const data = { updated: Date.now(), took: Date.now() - t0, sources: results.map(({ items, ...s }) => s), items };
   cache = { at: Date.now(), data, pending: null };
   const ok = results.filter(r => r.ok).length;
-  console.log(`[${new Date().toLocaleTimeString('es-CO')}] ${items.length} noticias de ${ok}/${FEEDS.length} fuentes en ${data.took} ms`);
+  if (require.main === module) console.log(`[${new Date().toLocaleTimeString('es-CO')}] ${items.length} noticias de ${ok}/${FEEDS.length} fuentes en ${data.took} ms`);
   return data;
 }
 
@@ -61,7 +61,7 @@ function send(res, code, body, type, extra) {
   res.end(body);
 }
 
-const server = http.createServer(async (req, res) => {
+async function handler(req, res) {
   const url = new URL(req.url, 'http://localhost');
   if (url.pathname === '/api/news') {
     try {
@@ -105,10 +105,19 @@ const server = http.createServer(async (req, res) => {
     if (err) return send(res, 404, 'No encontrado', 'text/plain; charset=utf-8');
     send(res, 200, buf, MIME[path.extname(file).toLowerCase()] || 'application/octet-stream', { 'Cache-Control': 'no-cache' });
   });
-});
+}
 
-server.listen(PORT, () => {
-  console.log(`\n  ⚽ Noti-Trol en vivo → http://localhost:${PORT}\n`);
-  refresh().catch(() => {});
-  setInterval(() => refresh().catch(() => {}), TTL); // mantiene la caché caliente
-});
+// Fábrica del servidor: permite levantarlo dentro de las pruebas con dobles de fetch
+function createServer() { return http.createServer(handler); }
+// Limpia las cachés en memoria (solo para pruebas: aísla cada caso)
+function resetCache() { cache = { at: 0, data: null, pending: null }; espnCache.clear(); }
+
+if (require.main === module) {
+  createServer().listen(PORT, () => {
+    console.log(`\n  ⚽ Noti-Trol en vivo → http://localhost:${PORT}\n`);
+    refresh().catch(() => {});
+    setInterval(() => refresh().catch(() => {}), TTL); // mantiene la caché caliente
+  });
+}
+
+module.exports = { createServer, resetCache, TTL };

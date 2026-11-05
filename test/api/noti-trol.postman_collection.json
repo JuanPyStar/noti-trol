@@ -1,0 +1,89 @@
+{
+  "info": {
+    "name": "Noti-Trol API – pruebas automatizadas (Taller U3)",
+    "description": "Pruebas de API de Noti-Trol. Se ejecutan con Newman mediante `npm test` (ver test/api/run-newman.js). La variable baseUrl la fija el ejecutor.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [{ "key": "baseUrl", "value": "http://localhost:3000" }],
+  "item": [
+    {
+      "name": "CP-A01 Salud del servicio",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/health" },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('CP-A01 /api/health responde 200 en menos de 500 ms', function () {",
+        "  pm.response.to.have.status(200);",
+        "  pm.expect(pm.response.responseTime).to.be.below(500);",
+        "});",
+        "pm.test('CP-A01 reporta 16 fuentes configuradas', function () {",
+        "  const j = pm.response.json();",
+        "  pm.expect(j.ok).to.eql(true);",
+        "  pm.expect(j.feeds).to.eql(16);",
+        "});"
+      ] } }]
+    },
+    {
+      "name": "CP-A02 Noticias unificadas",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/news" },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "const j = pm.response.json();",
+        "pm.test('CP-A02 responde 200 JSON sin caché de navegador', function () {",
+        "  pm.response.to.have.status(200);",
+        "  pm.response.to.have.header('Content-Type', 'application/json; charset=utf-8');",
+        "  pm.response.to.have.header('Cache-Control', 'no-store');",
+        "});",
+        "pm.test('CP-A02 contrato: cada noticia trae id, título, enlace https, fecha y deporte', function () {",
+        "  pm.expect(j.items).to.be.an('array').that.is.not.empty;",
+        "  j.items.forEach(function (it) {",
+        "    pm.expect(it).to.include.keys('id', 'title', 'link', 'date', 'sport', 'source', 'tags');",
+        "    pm.expect(it.link).to.match(/^https:\\/\\//);",
+        "  });",
+        "});",
+        "pm.test('CP-A02 sin enlaces duplicados y ordenadas de la más nueva a la más vieja', function () {",
+        "  const links = j.items.map(function (i) { return i.link; });",
+        "  pm.expect(new Set(links).size).to.eql(links.length);",
+        "  for (let k = 1; k < j.items.length; k++) pm.expect(j.items[k - 1].date).to.be.at.least(j.items[k].date);",
+        "});",
+        "pm.collectionVariables.set('masReciente', j.items[0].date);"
+      ] } }]
+    },
+    {
+      "name": "CP-A03 Noticias nuevas desde la más reciente (since)",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/news?since={{masReciente}}" },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('CP-A03 since = fecha de la más reciente devuelve 0 noticias', function () {",
+        "  pm.response.to.have.status(200);",
+        "  pm.expect(pm.response.json().items).to.have.lengthOf(0);",
+        "});"
+      ] } }]
+    },
+    {
+      "name": "CP-A04 Proxy ESPN rechaza ruta no permitida (SSRF)",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/espn?p=teams/col.1" },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('CP-A04 ruta fuera de la lista blanca devuelve 400', function () {",
+        "  pm.response.to.have.status(400);",
+        "  pm.expect(pm.response.json().error).to.eql('ruta no permitida');",
+        "});"
+      ] } }]
+    },
+    {
+      "name": "CP-A05 Proxy ESPN marcador de la Liga BetPlay",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/espn?p=scoreboard/col.1" },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('CP-A05 ruta válida se reenvía a ESPN (200)', function () {",
+        "  pm.response.to.have.status(200);",
+        "  pm.expect(pm.response.json().url).to.include('/soccer/col.1/scoreboard');",
+        "});"
+      ] } }]
+    },
+    {
+      "name": "CP-A06 No expone el código del servidor",
+      "request": { "method": "GET", "url": "{{baseUrl}}/server.js" },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('CP-A06 /server.js devuelve 404', function () {",
+        "  pm.response.to.have.status(404);",
+        "});"
+      ] } }]
+    }
+  ]
+}
