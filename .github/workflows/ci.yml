@@ -1,0 +1,51 @@
+# Pipeline de integración continua de Noti-Trol (Taller U3).
+# Orden fail fast: instalación -> análisis estático -> pruebas + cobertura -> API -> artefacto.
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Descargar código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node 24 con caché de npm
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Análisis estático (ESLint)
+        run: npm run lint
+
+      - name: Pruebas unitarias e integración con umbral de cobertura
+        run: npm run test:ci
+
+      - name: Pruebas de API (Newman)
+        run: npm run test:api
+
+      - name: Publicar reporte de cobertura
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cobertura-lcov
+          path: coverage/lcov.info
+          if-no-files-found: warn
+          retention-days: 14

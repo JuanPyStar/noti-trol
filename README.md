@@ -1,5 +1,7 @@
 # Noti-Trol · fútbol en vivo
 
+[![CI](https://github.com/JuanPyStar/noti-trol/actions/workflows/ci.yml/badge.svg)](https://github.com/JuanPyStar/noti-trol/actions/workflows/ci.yml)
+
 Agregador de noticias deportivas que se actualiza solo, con el fútbol como protagonista.
 
 **Desarrolladores:** Juan David Jauregui · Andres Mendez
@@ -30,6 +32,8 @@ Luego abre **http://localhost:3000**. Para otro puerto: `PORT=8080 node server.j
 
 ```bash
 npm install   # solo la primera vez (instala Newman, dependencia de desarrollo)
+npm run lint  # análisis estático (ESLint)
+npm run test:ci  # pruebas con umbral de cobertura (85 % líneas, 80 % ramas y funciones)
 npm test      # un solo comando: node:test (unitarias + integración, con cobertura) y Newman (API)
 ```
 

@@ -5,8 +5,10 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
+    "lint": "eslint .",
     "test": "npm run test:xunit && npm run test:api",
     "test:xunit": "node --test --test-reporter=spec --experimental-test-coverage test/*.test.js",
+    "test:ci": "node -e \"require('fs').mkdirSync('coverage',{recursive:true})\" && node --test --experimental-test-coverage --test-coverage-lines=85 --test-coverage-branches=80 --test-coverage-functions=80 --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=coverage/lcov.info test/*.test.js",
     "test:api": "node test/api/run-newman.js"
   },
   "engines": {
@@ -16,6 +18,9 @@
   "license": "UNLICENSED",
   "private": true,
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "eslint": "^9.39.5",
+    "globals": "^17.14.0",
     "newman": "^6.2.3"
   }
 }

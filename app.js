@@ -266,7 +266,7 @@
 
   /* ======================= MARCADORES ======================= */
   function statusOf(e) {
-    const t = e.status.type, c = e.competitions[0];
+    const t = e.status.type;
     if (t.state === 'in') return { k: 'live', txt: t.name === 'STATUS_HALFTIME' ? 'Descanso' : (e.status.displayClock || t.shortDetail || 'En vivo') };
     if (t.state === 'post') {
       if (/POSTPONED|CANCELED|SUSPENDED/.test(t.name)) return { k: 'fin', txt: 'Aplazado' };
