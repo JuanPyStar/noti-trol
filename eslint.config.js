@@ -15,7 +15,9 @@ module.exports = [
     rules: {
       // catch vacíos son intencionales (localStorage/notificaciones pueden fallar)
       'no-empty': ['error', { allowEmptyCatch: true }],
-      'no-unused-vars': ['error', { args: 'none', caughtErrors: 'none' }]
+      'no-unused-vars': ['error', { args: 'none', caughtErrors: 'none' }],
+      // umbral de complejidad ciclomática del estándar (ítem B2); warn para listar las que lo superan sin romper el CI
+      complexity: ['warn', 10]
     }
   }
 ];

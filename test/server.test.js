@@ -50,3 +50,9 @@ test('CP-I05 /api/espn rechaza rutas fuera de la lista blanca', async () => {
 test('CP-I06 archivo inexistente devuelve 404', async () => {
   assert.equal((await fetch(BASE + '/no-existe.css')).status, 404);
 });
+
+test('CP-I14 una URL mal codificada responde 400 y el servidor sigue vivo', async () => {
+  const r = await fetch(BASE + '/%E0%A4%A');
+  assert.equal(r.status, 400);
+  assert.equal((await fetch(BASE + '/api/health')).status, 200);
+});

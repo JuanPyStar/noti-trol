@@ -8,7 +8,7 @@ Agregador de noticias deportivas que se actualiza solo, con el fútbol como prot
 
 ## Cómo ejecutarlo
 
-Requiere [Node.js](https://nodejs.org) 18 o superior (no hay que instalar dependencias).
+Requiere [Node.js](https://nodejs.org) 18 o superior (no hay que instalar dependencias). Para las pruebas (`npm test`, `npm run test:ci`) hace falta Node 22.8 o superior, porque los umbrales de cobertura (`--test-coverage-lines`) no existen en versiones anteriores; el CI usa Node 24.
 
 ```bash
 node server.js

@@ -35,6 +35,9 @@ jobs:
       - name: Análisis estático (ESLint)
         run: npm run lint
 
+      - name: Escaneo de secretos
+        run: npm run secrets
+
       - name: Pruebas unitarias e integración con umbral de cobertura
         run: npm run test:ci
 

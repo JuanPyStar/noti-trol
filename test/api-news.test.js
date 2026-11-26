@@ -62,7 +62,6 @@ describe('/api/news', () => {
   // Prueba parametrizada: valores límite del parámetro since
   const casosSince = [
     { since: '',                          esperado: TOTAL, nota: 'sin parámetro' },
-    { since: 'abc',                       esperado: TOTAL, nota: 'no numérico → 0' },
     { since: upstream.T0 - 2 * MIN - 1,   esperado: 3,     nota: '1 ms antes de la 3.ª más reciente' },
     { since: upstream.T0 - 1,             esperado: 1,     nota: '1 ms antes de la más reciente' },
     { since: upstream.T0,                 esperado: 0,     nota: 'igual a la más reciente (estricto >)' }
@@ -73,6 +72,15 @@ describe('/api/news', () => {
       assert.equal(body.items.length, c.esperado);
     });
   }
+
+  test('CP-I13 since no numérico o negativo responde 400 sin consultar los diarios', async () => {
+    for (const malo of ['abc', '-5']) {
+      const { status, body } = await getJson('/api/news?since=' + malo);
+      assert.equal(status, 400);
+      assert.match(body.error, /since/);
+    }
+    assert.equal(fake.llamadas.length, 0);
+  });
 
   test('CP-I11 una fuente caída no tumba la portada', async () => {
     fake.caidas.add('marca-1a');
