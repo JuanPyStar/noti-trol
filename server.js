@@ -56,6 +56,14 @@ function getNews() {
   return cache.data ? Promise.resolve(cache.data) : cache.pending;
 }
 
+// since: marca de tiempo en ms; vacío = 0, inválido = null (el handler responde 400)
+function parseSince(raw) {
+  if (raw === null || raw === '') return 0;
+  if (!/^\d+$/.test(raw)) return null;
+  const n = Number(raw);
+  return Number.isSafeInteger(n) ? n : null;
+}
+
 function send(res, code, body, type, extra) {
   res.writeHead(code, Object.assign({ 'Content-Type': type, 'X-Content-Type-Options': 'nosniff' }, extra || {}));
   res.end(body);
@@ -65,8 +73,9 @@ async function handler(req, res) {
   const url = new URL(req.url, 'http://localhost');
   if (url.pathname === '/api/news') {
     try {
+      const since = parseSince(url.searchParams.get('since'));
+      if (since === null) return send(res, 400, '{"error":"since debe ser un entero no negativo"}', MIME['.json']);
       const data = await getNews();
-      const since = Number(url.searchParams.get('since')) || 0;
       const out = since ? Object.assign({}, data, { items: data.items.filter(i => i.date > since) }) : data;
       return send(res, 200, JSON.stringify(out), MIME['.json'], { 'Cache-Control': 'no-store', 'Access-Control-Allow-Origin': '*' });
     } catch (e) {
@@ -120,4 +129,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { createServer, resetCache, TTL };
+module.exports = { createServer, resetCache, parseSince, TTL };
