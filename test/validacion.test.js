@@ -62,6 +62,6 @@ test('listarArchivos incluye el código y omite node_modules, .git y package-loc
   const raiz = require('node:path').join(__dirname, '..');
   const archivos = listarArchivos(raiz);
   assert.ok(archivos.includes('server.js'));
-  assert.ok(!archivos.some(f => /^(node_modules|\.git)[\/]/.test(f) || f === 'package-lock.json'));
+  assert.ok(!archivos.some(f => /^(node_modules|\.git)[\\/]/.test(f) || f === 'package-lock.json'));
   assert.equal(leerTexto(require('node:path').join(raiz, 'docs', 'img', 'flujo-ci.png')), null, 'los binarios se omiten');
 });
