@@ -1,7 +1,7 @@
 'use strict';
 // Escaneo de secretos (ítem B4): busca credenciales en los archivos versionados y falla si encuentra alguna.
 // shortcut: solo patrones conocidos y archivos actuales; usar gitleaks si el proyecto crece o hay que revisar todo el historial en el CI.
-const { execFileSync } = require('node:child_process');
+const path = require('node:path');
 const fs = require('node:fs');
 
 const PATRONES = [
@@ -24,17 +24,26 @@ function escanear(archivos, leer) {
   return hallazgos;
 }
 
+// recorre el proyecto con fs (sin lanzar git desde el PATH, regla S4036 de Sonar)
+const IGNORAR = /^(node_modules|\.git|coverage)([\\/]|$)|^package-lock\.json$/;
+function listarArchivos(raiz) {
+  return fs.readdirSync(raiz, { recursive: true, withFileTypes: true })
+    .filter(e => e.isFile())
+    .map(e => path.relative(raiz, path.join(e.parentPath, e.name)))
+    .filter(f => !IGNORAR.test(f));
+}
+
 function leerTexto(f) {
   const buf = fs.readFileSync(f);
   return buf.includes(0) ? null : buf.toString('utf8'); // omite binarios (docx, pdf, png)
 }
 
 if (require.main === module) {
-  const archivos = execFileSync('git', ['ls-files'], { encoding: 'utf8' }).split('\n').filter(f => f && f !== 'package-lock.json' && fs.existsSync(f));
+  const archivos = listarArchivos('.');
   const hallazgos = escanear(archivos, leerTexto);
   console.log(`Escaneo de secretos: ${archivos.length} archivos, ${hallazgos.length} hallazgos`);
   hallazgos.forEach(h => console.log('  ' + h));
   process.exit(hallazgos.length ? 1 : 0);
 }
 
-module.exports = { escanear, PATRONES };
+module.exports = { escanear, listarArchivos, leerTexto, PATRONES };
