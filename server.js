@@ -141,4 +141,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { createServer, resetCache, parseSince, TTL };
+module.exports = { createServer, resetCache, parseSince, espnTarget, TTL };

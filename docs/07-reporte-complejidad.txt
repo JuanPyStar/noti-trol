@@ -1,0 +1,12 @@
+Reporte de complejidad ciclomática (ESLint complexity, umbral 10)
+Generado: npx eslint .
+
+app.js:166  Function 'matches' has a complexity of 11. Maximum allowed is 10.
+app.js:189  Function 'renderHero' has a complexity of 15. Maximum allowed is 10.
+app.js:268  Function 'statusOf' has a complexity of 13. Maximum allowed is 10.
+app.js:301  Function 'detectChanges' has a complexity of 12. Maximum allowed is 10.
+feeds.js:53  Function 'findImage' has a complexity of 12. Maximum allowed is 10.
+feeds.js:84  Function 'classify' has a complexity of 13. Maximum allowed is 10.
+feeds.js:116  Function 'parseFeed' has a complexity of 13. Maximum allowed is 10.
+
+Errores críticos: 0
