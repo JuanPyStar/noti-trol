@@ -109,7 +109,8 @@ async function handleEspn(url, res) {
 }
 
 function serveStatic(url, res) {
-  let p = decodeURIComponent(url.pathname);
+  let p;
+  try { p = decodeURIComponent(url.pathname); } catch { return send(res, 400, 'Solicitud inválida', 'text/plain; charset=utf-8'); }
   if (p === '/') p = '/index.html';
   const file = path.normalize(path.join(ROOT, p));
   if (!file.startsWith(ROOT) || /[\\/]\.|server\.js$|package/.test(file)) return send(res, 404, 'No encontrado', 'text/plain; charset=utf-8');
