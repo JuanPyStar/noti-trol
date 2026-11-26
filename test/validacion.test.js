@@ -22,3 +22,29 @@ test('parseSince rechaza negativos, decimales, texto y valores fuera de rango', 
     assert.equal(parseSince(malo), null, `debe rechazar ${JSON.stringify(malo)}`);
   }
 });
+
+// Caja blanca (ítem C3). Un caso por camino independiente del camino base.
+// parseSince: decisiones null, '', regex, isSafeInteger => V(G) = 4 + 1 = 5
+test('parseSince camino 4: dígitos que exceden el entero seguro devuelven null', () => {
+  assert.equal(parseSince('99999999999999999999'), null);
+});
+
+// espnTarget: decisiones (p || ''), !m, ternario => V(G) = 3 + 1 = 4
+const { espnTarget } = require('../server.js');
+
+test('espnTarget camino 1: p ausente devuelve null', () => {
+  assert.equal(espnTarget(null), null);
+});
+
+test('espnTarget camino 2: ruta fuera de la lista blanca devuelve null', () => {
+  assert.equal(espnTarget('../../admin'), null);
+  assert.equal(espnTarget('scoreboard/COL.1'), null);
+});
+
+test('espnTarget camino 3: scoreboard arma la URL de marcadores con TTL de 20 s', () => {
+  assert.deepEqual(espnTarget('scoreboard/col.1'), { target: 'https://site.api.espn.com/apis/site/v2/sports/soccer/col.1/scoreboard', ttl: 20000 });
+});
+
+test('espnTarget camino 4: standings arma la URL de tablas con TTL de 5 min', () => {
+  assert.deepEqual(espnTarget('standings/esp.1'), { target: 'https://site.api.espn.com/apis/v2/sports/soccer/esp.1/standings', ttl: 300000 });
+});
