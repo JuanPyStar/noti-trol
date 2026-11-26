@@ -48,3 +48,11 @@ test('espnTarget camino 3: scoreboard arma la URL de marcadores con TTL de 20 s'
 test('espnTarget camino 4: standings arma la URL de tablas con TTL de 5 min', () => {
   assert.deepEqual(espnTarget('standings/esp.1'), { target: 'https://site.api.espn.com/apis/v2/sports/soccer/esp.1/standings', ttl: 300000 });
 });
+
+// Escáner de secretos: detecta una credencial falsa y no marca código limpio
+const { escanear } = require('../scripts/escanear-secretos.js');
+
+test('escanear detecta una credencial asignada en el código', () => {
+  const textos = { 'a.js': "const token = " + "'abc123XYZ987';", 'b.js': 'const PORT = 3000;' };
+  assert.deepEqual(escanear(Object.keys(textos), f => textos[f]), ['a.js:1 Asignación de credencial']);
+});
