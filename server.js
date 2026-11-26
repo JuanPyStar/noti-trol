@@ -69,43 +69,46 @@ function send(res, code, body, type, extra) {
   res.end(body);
 }
 
-async function handler(req, res) {
-  const url = new URL(req.url, 'http://localhost');
-  if (url.pathname === '/api/news') {
-    try {
-      const since = parseSince(url.searchParams.get('since'));
-      if (since === null) return send(res, 400, '{"error":"since debe ser un entero no negativo"}', MIME['.json']);
-      const data = await getNews();
-      const out = since ? Object.assign({}, data, { items: data.items.filter(i => i.date > since) }) : data;
-      return send(res, 200, JSON.stringify(out), MIME['.json'], { 'Cache-Control': 'no-store', 'Access-Control-Allow-Origin': '*' });
-    } catch (e) {
-      return send(res, 502, JSON.stringify({ error: String(e) }), MIME['.json']);
-    }
+async function handleNews(url, res) {
+  const since = parseSince(url.searchParams.get('since'));
+  if (since === null) return send(res, 400, '{"error":"since debe ser un entero no negativo"}', MIME['.json']);
+  try {
+    const data = await getNews();
+    const out = since ? Object.assign({}, data, { items: data.items.filter(i => i.date > since) }) : data;
+    return send(res, 200, JSON.stringify(out), MIME['.json'], { 'Cache-Control': 'no-store', 'Access-Control-Allow-Origin': '*' });
+  } catch (e) {
+    return send(res, 502, JSON.stringify({ error: String(e) }), MIME['.json']);
   }
-  if (url.pathname === '/api/espn') {
-    // reenvía solo marcadores y tablas de fútbol de la API pública de ESPN (caché 20 s)
-    const p = url.searchParams.get('p') || '';
-    const m = p.match(/^(scoreboard|standings)\/([a-z]{3,10}\.[a-z0-9_]{1,20})$/);
-    if (!m) return send(res, 400, '{"error":"ruta no permitida"}', MIME['.json']);
-    const target = m[1] === 'scoreboard'
-      ? `https://site.api.espn.com/apis/site/v2/sports/soccer/${m[2]}/scoreboard`
-      : `https://site.api.espn.com/apis/v2/sports/soccer/${m[2]}/standings`;
-    const ttl = m[1] === 'scoreboard' ? 20000 : 300000;
-    const hit = espnCache.get(target);
-    if (hit && Date.now() - hit.at < ttl) return send(res, 200, hit.body, MIME['.json'], { 'Cache-Control': 'no-store' });
-    try {
-      const r = await fetch(target, { headers: { 'User-Agent': UA }, signal: AbortSignal.timeout(8000) });
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      const body = await r.text();
-      espnCache.set(target, { at: Date.now(), body });
-      return send(res, 200, body, MIME['.json'], { 'Cache-Control': 'no-store' });
-    } catch (e) {
-      if (hit) return send(res, 200, hit.body, MIME['.json']);
-      return send(res, 502, JSON.stringify({ error: String(e.message || e) }), MIME['.json']);
-    }
-  }
-  if (url.pathname === '/api/health') return send(res, 200, JSON.stringify({ ok: true, feeds: FEEDS.length, cachedAt: cache.at }), MIME['.json']);
+}
 
+// reenvía solo marcadores y tablas de fútbol de la API pública de ESPN (caché 20 s / 5 min)
+function espnTarget(p) {
+  const m = (p || '').match(/^(scoreboard|standings)\/([a-z]{3,10}\.[a-z0-9_]{1,20})$/);
+  if (!m) return null;
+  return m[1] === 'scoreboard'
+    ? { target: `https://site.api.espn.com/apis/site/v2/sports/soccer/${m[2]}/scoreboard`, ttl: 20000 }
+    : { target: `https://site.api.espn.com/apis/v2/sports/soccer/${m[2]}/standings`, ttl: 300000 };
+}
+
+async function handleEspn(url, res) {
+  const ruta = espnTarget(url.searchParams.get('p'));
+  if (!ruta) return send(res, 400, '{"error":"ruta no permitida"}', MIME['.json']);
+  const { target, ttl } = ruta;
+  const hit = espnCache.get(target);
+  if (hit && Date.now() - hit.at < ttl) return send(res, 200, hit.body, MIME['.json'], { 'Cache-Control': 'no-store' });
+  try {
+    const r = await fetch(target, { headers: { 'User-Agent': UA }, signal: AbortSignal.timeout(8000) });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const body = await r.text();
+    espnCache.set(target, { at: Date.now(), body });
+    return send(res, 200, body, MIME['.json'], { 'Cache-Control': 'no-store' });
+  } catch (e) {
+    if (hit) return send(res, 200, hit.body, MIME['.json']);
+    return send(res, 502, JSON.stringify({ error: String(e.message || e) }), MIME['.json']);
+  }
+}
+
+function serveStatic(url, res) {
   let p = decodeURIComponent(url.pathname);
   if (p === '/') p = '/index.html';
   const file = path.normalize(path.join(ROOT, p));
@@ -114,6 +117,14 @@ async function handler(req, res) {
     if (err) return send(res, 404, 'No encontrado', 'text/plain; charset=utf-8');
     send(res, 200, buf, MIME[path.extname(file).toLowerCase()] || 'application/octet-stream', { 'Cache-Control': 'no-cache' });
   });
+}
+
+async function handler(req, res) {
+  const url = new URL(req.url, 'http://localhost');
+  if (url.pathname === '/api/news') return handleNews(url, res);
+  if (url.pathname === '/api/espn') return handleEspn(url, res);
+  if (url.pathname === '/api/health') return send(res, 200, JSON.stringify({ ok: true, feeds: FEEDS.length, cachedAt: cache.at }), MIME['.json']);
+  return serveStatic(url, res);
 }
 
 // Fábrica del servidor: permite levantarlo dentro de las pruebas con dobles de fetch
