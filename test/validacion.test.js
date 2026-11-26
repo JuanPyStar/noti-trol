@@ -56,3 +56,12 @@ test('escanear detecta una credencial asignada en el código', () => {
   const textos = { 'a.js': "const token = " + "'abc123XYZ987';", 'b.js': 'const PORT = 3000;' };
   assert.deepEqual(escanear(Object.keys(textos), f => textos[f]), ['a.js:1 Asignación de credencial']);
 });
+
+test('listarArchivos incluye el código y omite node_modules, .git y package-lock.json', () => {
+  const { listarArchivos, leerTexto } = require('../scripts/escanear-secretos.js');
+  const raiz = require('node:path').join(__dirname, '..');
+  const archivos = listarArchivos(raiz);
+  assert.ok(archivos.includes('server.js'));
+  assert.ok(!archivos.some(f => /^(node_modules|\.git)[\/]/.test(f) || f === 'package-lock.json'));
+  assert.equal(leerTexto(require('node:path').join(raiz, 'docs', 'img', 'flujo-ci.png')), null, 'los binarios se omiten');
+});
